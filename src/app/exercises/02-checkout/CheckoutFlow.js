@@ -1,24 +1,28 @@
-'use client';
-import React from 'react';
+"use client";
+import React from "react";
+import Spinner from "../../../components/Spinner";
+import CartTable from "./CartTable";
 
-import CartTable from './CartTable';
-
-function CheckoutFlow({
-  items,
-  taxRate,
-  handleDeleteItem,
-}) {
-  if (items.length === 0) {
+function CheckoutFlow({ items, taxRate, handleDeleteItem }) {
+  if (items === null) {
     return (
       <div className="checkout-flow empty">
-        <p>Your Cart is Empty</p>
+        <Spinner />
       </div>
     );
   }
 
-  const priceFormatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
+  if (items.length === 0) {
+    return (
+      <div className="checkout-flow empty">
+        <p>Your cart is empty</p>
+      </div>
+    );
+  }
+
+  const priceFormatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
   });
 
   const subtotal = calculateSubtotal(items);
@@ -27,10 +31,7 @@ function CheckoutFlow({
 
   return (
     <div className="checkout-flow">
-      <CartTable
-        items={items}
-        handleDeleteItem={handleDeleteItem}
-      />
+      <CartTable items={items} handleDeleteItem={handleDeleteItem} />
 
       <table className="checkout-totals">
         <tbody>
